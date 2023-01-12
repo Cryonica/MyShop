@@ -1,0 +1,48 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    IEnumerable<ProvidedProduct> data = ViewBag.ProvidedProducts;
+}
+@model MyShop.Models.ProvidedProduct
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ProductItemId</th>
+            <th scope="col">Price</th>
+            <th scope="col">Image</th>
+            <th scope="col">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ProvidedProduct item in data)
+        {
+            <tr>
+                <th scope="row">@item.Product.Name</th>
+                <td>@item.Product.Price</td>
+                <td>@item.Product.ImageUrl</td>
+                <td>@item.Product.Description</td>
+                <td>Всего товаров: @item.ProductQuantity</td>
+                <td>
+                    <form asp-controller="OpenPoint" asp-action="AddToCart" asp-route-id=@item.ProductId method="post">
+                        <label class="control-label"> Количество</label>
+                        <input type="number" name="Seq" value="1" asp-for="Product" class="form-control" placeholder="Кол-во" min="1" max="10" />
+                        <input type="submit" value="Купить" class="btn btn-primary" />
+                    </form>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+@Html.ActionLink("перейти в корзину", // <-- Link text
+            "Index", // <-- Action Method Name
+            "Cart", // <-- Controller Name
+            null, // <-- Route value
+            null // <-- htmlArguments
+            )
+
+
+

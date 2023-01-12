@@ -1,0 +1,53 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@using MyShop.Services.ManageShopServices
+@{
+    IEnumerable<CartLine> data = ViewBag.CartProduct;
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ProductItemId</th>
+            <th scope="col">Price</th>
+            <th scope="col">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (CartLine item in data)
+        {
+            <tr>
+                <th scope="row">@item.Product.Name</th>
+                <td>@item.Product.Price</td>
+                <td>@item.Product.Description</td>
+                <td>Всего товаров: @item.Quantity</td>
+                <td>
+                    <form asp-controller="Cart" asp-action="Delete" asp-route-id=@item.Product.Id method="post">
+                        <label class="control-label"> сумма: @(item.Product.Price * item.Quantity)</label>
+                        <input type="submit" value="удалить" class="btn btn-primary" />
+                    </form>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<div>
+    @Html.ActionLink("Оформить заказ", // <-- Link text
+            "Index", // <-- Action Method Name
+            "Order", // <-- Controller Name
+            null, // <-- Route value
+            null // <-- htmlArguments
+            )
+</div>
+<div>
+
+    @Html.ActionLink("На страницу товаров", // <-- Link text
+                 "Index", // <-- Action Method Name
+                 "OpenPoint", // <-- Controller Name
+                 null, // <-- Route value
+                 null // <-- htmlArguments
+                 )
+</div>
+

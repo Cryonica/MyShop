@@ -1,0 +1,80 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    IEnumerable<SaleData> data = ViewBag.SaleData;
+}
+@model MyShop.Models.SaleData
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ProductName</th>
+            <th scope="col">Price</th>
+            <th scope="col">Image</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (SaleData item in data)
+        {
+            <tr>
+                <th scope="row">@item.Product.Name</th>
+                <td>@item.Product.Price x @item.ProductQuantity</td>
+                <td>@item.Product.ImageUrl</td>
+                <td>@(item.Product.Price * item.ProductQuantity)</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+@using (Html.BeginForm("MakeOrder", "Order", FormMethod.Post))
+{
+<table class=" table">
+    <thead>
+        <tr>
+            <th scope="row">Информация для доставки</th>
+ 
+        </tr>
+    </thead>
+    <tr>
+        <td>Name:</td>
+        <td>
+            <input type="text" class="input-group-lg" id="Name" name="Name" required />
+        </td>
+    </tr>
+    <tr>
+        <td>Address:</td>
+        <td>
+            <input type="text" id="Address" name="Address" required />
+        </td>
+    </tr>
+    <tr>
+        <td>City:</td>
+        <td>
+            <input type="text" id="City" name="City" required />
+        </td>
+    </tr>
+    <tr>
+        <td>State:</td>
+        <td>
+            <input type="text" id="State" name="State" required />
+        </td>
+    </tr>
+    <tr>
+        <td>Zip Code:</td>
+        <td>
+            <input type="text" id="ZipCode" name="ZipCode" required />
+        </td>
+    </tr>
+    <tr>
+        <td>Phone Number:</td>
+        <td>
+            <input type="tel" id="PhoneNumber" name="PhoneNumber" required />
+        </td>
+    </tr>
+</table>
+    <div>
+        <input type="submit" class="btn-group-lg" value="Оформить" />
+    </div>
+}
