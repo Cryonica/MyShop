@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace MyShop.Controllers
 {
-    
+    [Route("Order")]
     public class OrderController : Controller
     {
         private readonly SqlDbContext _sqlDbContext;
@@ -27,6 +27,8 @@ namespace MyShop.Controllers
             _signInManager = signInManager;
         }
         // GET: OrderController
+        [HttpGet]
+        [Route("Index")]
         public IActionResult Index()
         {
             var cart = SessionHelper.GetObjectFromJson<List<CartLine>>(HttpContext.Session, "Cart");//берем записи из корзины
@@ -46,9 +48,6 @@ namespace MyShop.Controllers
                     cartitem.Quantity = Math.Min(cartitem.Quantity, availableProduct.ProductQuantity);
                 }
             }
-
-            // Making an order final for confirmation and getting data about the delivery address
-
             List<SaleData> saleDatas = new();
             cart.ForEach(lp =>
             {
@@ -67,6 +66,7 @@ namespace MyShop.Controllers
             return View();
         }
         [HttpPost]
+        [Route("MakeOrder")]
         public IActionResult MakeOrder(string Name, string Address, string City, string State, string ZipCode, string PhoneNumber)
         {
             HttpContext.Request.EnableBuffering();
@@ -88,71 +88,79 @@ namespace MyShop.Controllers
         }
 
         // GET: OrderController/Details/5
+        [HttpGet]
+        [Route("Details {id}")]
         public ActionResult Details(int id)
         {
             return View();
         }
 
         // GET: OrderController/Create
+        [HttpGet]
+        [Route("Create")]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: OrderController/Create
-        [HttpPost]
+        [HttpPost("Create_OnlyForAPI_NotWorked")]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return StatusCode(202);
             }
             catch
             {
-                return View();
+                return StatusCode(400);
             }
         }
 
-        // GET: OrderController/Edit/5
+        [HttpGet]
+        [Route("Edit_OnlyForAPI_NotWorked/{id}")]
         public ActionResult Edit(int id)
         {
-            return View();
+            return StatusCode(202);
         }
 
         // POST: OrderController/Edit/5
         [HttpPost]
+        [Route("Edit{id}/OnlyForAPI_NotWorked_Link")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Edit(int id, IFormCollection collection)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return StatusCode(202);
             }
             catch
             {
-                return View();
+                return StatusCode(400);
             }
         }
 
-        // GET: OrderController/Delete/5
+        [HttpDelete]
+        [Route("Delete{id}/OnlyForAPI_NotWorked")]
         public ActionResult Delete(int id)
         {
-            return View();
+            return StatusCode(202);
         }
 
         // POST: OrderController/Delete/5
-        [HttpPost]
+        [HttpDelete]
+        [Route("Delete{id}/OnlyForAPI_NotWorked_link")]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return StatusCode(202);
             }
             catch
             {
-                return View();
+                return StatusCode(400);
             }
         }
     }

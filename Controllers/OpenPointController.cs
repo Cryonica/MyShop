@@ -21,6 +21,7 @@ namespace MyShop.Controllers
         }
 
         // GET: OpenPointController
+        [HttpGet("Index")]
         public IActionResult Index()
         {
             var salePoint = SessionHelper.GetObjectFromJson<SalePoint>(HttpContext.Session, "SalePoint");
@@ -32,7 +33,7 @@ namespace MyShop.Controllers
                     .Where(p => p.SalePointId == salePoint.Id)
                     .ToArray();
 
-                var seq = Enumerable.Range(0, 10).ToList();
+                var seq = Enumerable.Range(1, 10).ToList();
                 ViewBag.ProvidedProducts = providedProducts;
                 ViewBag.Seq = seq;
                 return View();
@@ -45,6 +46,7 @@ namespace MyShop.Controllers
 
         // POST: OpenPointController/Delete/5
         [HttpPost]
+        [Route("OnlyForAPI_NotWorked")]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
         {
@@ -57,9 +59,8 @@ namespace MyShop.Controllers
                 return View();
             }
         }
-        //[Route("AddToCart/{id}")]
         [HttpPost]
-        [Route("/ControllerName/AddToCart")]
+        [Route("AddToCart")]
         public IActionResult AddToCart(int Id, int Seq)
         {
             
@@ -68,34 +69,29 @@ namespace MyShop.Controllers
             {
                 cart = new();
             }
-           
-            using (_sqlDbContext)
+            Product product = _sqlDbContext.Products
+            .Where(p => p.Id == Id)
+            .FirstOrDefault();
+            if (product != null)
             {
-                Product product = _sqlDbContext.Products
-                .Where(p => p.Id == Id)
-                .FirstOrDefault();
-                if (product != null)
+               var ProductInCart= cart
+                    .Where(c => c.Product.Id == Id)
+                    .FirstOrDefault();
+                if (ProductInCart != null)
                 {
-                   var ProductInCart= cart
-                        .Where(c => c.Product.Id == Id)
-                        .FirstOrDefault();
-                    if (ProductInCart != null)
-                    {
-                        ProductInCart.Quantity = ProductInCart.Quantity + Seq;
-                    }
-                    else
-                    {
-                        CartLine cartLine = new CartLine
-                        {
-                            Product = product,
-                            Quantity = Seq
-                        };
-                        cart.Add(cartLine);
-                    }
-                    SessionHelper.SetObjectAsJson(HttpContext.Session, "Cart", cart);
+                    ProductInCart.Quantity = ProductInCart.Quantity + Seq;
                 }
+                else
+                {
+                    CartLine cartLine = new CartLine
+                    {
+                        Product = product,
+                        Quantity = Seq
+                    };
+                    cart.Add(cartLine);
+                }
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "Cart", cart);
             }
-            //return StatusCode(204);
             return RedirectToAction("Index");
            
         }

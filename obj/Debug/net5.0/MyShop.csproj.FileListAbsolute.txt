@@ -141,7 +141,6 @@ C:\Users\user\source\repos\MyShop\MyShop\obj\Debug\net5.0\MyShop.RazorCoreGenera
 C:\Users\user\source\repos\MyShop\MyShop\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\user\source\repos\MyShop\MyShop\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\user\source\repos\MyShop\MyShop\obj\Debug\net5.0\Razor\Views\OpenPoint\Index.cshtml.g.cs
-C:\Users\user\source\repos\MyShop\MyShop\obj\Debug\net5.0\Razor\Views\SailPoints\Index.cshtml.g.cs
 C:\Users\user\source\repos\MyShop\MyShop\obj\Debug\net5.0\Razor\Views\SailPoints\SPList.cshtml.g.cs
 C:\Users\user\source\repos\MyShop\MyShop\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\user\source\repos\MyShop\MyShop\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs

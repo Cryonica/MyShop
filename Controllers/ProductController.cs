@@ -10,7 +10,7 @@ namespace MyShop.Controllers
 {
     //тестовый контроллер ддя проверки работы с БД через кэш
 
-    [Route("api/[controller]")]
+    [Route("Product")]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -59,6 +59,8 @@ namespace MyShop.Controllers
             _dbContext.SaveChanges();
             return obj.Entity;
         }
+        
+        [ApiExplorerSettings(IgnoreApi = true)]
         public void Put(Product product)
         {
             _dbContext.Products.Update(product);

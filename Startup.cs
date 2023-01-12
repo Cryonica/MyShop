@@ -49,12 +49,13 @@ namespace MyShop
             });
        
             services.AddMvc();
-            services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "MemoryCache",
-                    Version = "v1"
-                });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+                c.IgnoreObsoleteActions();
+                c.IgnoreObsoleteProperties();
+                c.CustomSchemaIds(type => type.FullName);
             });
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<SqlDbContext>();
 
